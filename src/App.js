@@ -6,15 +6,18 @@ import AsynsData from './AsynsData'
 import './index.css'
 
 const LazyComponent = React.lazy(() => import('./Lazy'));
+const LazyWithFetchComponent = React.lazy(() => import('./LazyWithFetch'));
 
 class App extends Component {
   state = {
     showLazy: false,
+    showLazyWithFetch: false,
     numbers: [0],
     id: 1,
   }
 
-  showSuspense = () => this.setState({ showLazy: true })
+  showLazyComponent = () => this.setState({ showLazy: true })
+  showLazyComponentWithFetch = () => this.setState({ showLazyWithFetch: true })
 
   addNumber = () => {
     const { numbers } = this.state
@@ -28,23 +31,38 @@ class App extends Component {
 
   render() {
     const { numbers, id } = this.state
-    
+
     return (
       <div>
-        <button onClick={this.showSuspense}>
-          Show suspense
+        <button onClick={this.showLazyComponent}>
+          Show lazy component
+        </button>
+        <button onClick={this.showLazyComponentWithFetch}>
+          Show lazy component with fetch
+        </button>
+        <button onClick={this.increaseId}>
+          Current id is {id}, click to increase
         </button>
         <button onClick={this.addNumber}>
           Add number
         </button>
-        <button onClick={this.increaseId}>
-          Increase id
-        </button>
+        <hr />
         { this.state.showLazy && (
-          <Suspense fallback={<div>Loading...</div>}>
-            <LazyComponent numbers={numbers} />
+          <Suspense fallback={<div>Loading the component...</div>}>
+            <LazyComponent />
           </Suspense>
         )}
+        <hr />
+        { this.state.showLazyWithFetch && (
+          <Suspense fallback={<div>Loading the component...</div>}>
+            <LazyWithFetchComponent />
+          </Suspense>
+        )}
+        <hr />
+        <Derived id={id} />
+        <hr />
+        <AsynsData id={id} />
+        <hr />
         <table>
           <tbody>
             <tr>
@@ -63,8 +81,6 @@ class App extends Component {
             </tr>
           </tbody>
         </table>
-        <Derived id={id} />
-        <AsynsData id={id} />
       </div>
     );
   }
@@ -73,6 +89,7 @@ class App extends Component {
 export default App;
 
 // Note:
+// https://reactjs.org/blog/2018/10/23/react-v-16-6.html
 // Memo
 // Lazy: Import suspense, suspense is mandatory
 // Error: Boundary, good for dashboard getDerivedStateFromError or componentDidCatch

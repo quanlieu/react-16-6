@@ -4,7 +4,7 @@ class Lazy extends React.PureComponent {
   render() {
     return (
       <div>
-        I am a lazy component
+        I have been loaded lazily
       </div>
     );
   }

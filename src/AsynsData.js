@@ -2,7 +2,7 @@ import React from 'react';
 
 class AsyncData extends React.Component {
   state = {
-    todo: {}
+    todo: {},
   }
 
   componentDidMount() {
