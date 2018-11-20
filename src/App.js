@@ -37,32 +37,36 @@ class App extends Component {
         <button onClick={this.showLazyComponent}>
           Show lazy component
         </button>
-        <button onClick={this.showLazyComponentWithFetch}>
-          Show lazy component with fetch
-        </button>
-        <button onClick={this.increaseId}>
-          Current id is {id}, click to increase
-        </button>
-        <button onClick={this.addNumber}>
-          Add number
-        </button>
-        <hr />
         { this.state.showLazy && (
           <Suspense fallback={<div>Loading the component...</div>}>
             <LazyComponent />
           </Suspense>
         )}
         <hr />
+        <button onClick={this.showLazyComponentWithFetch}>
+          Show lazy component with fetch
+        </button>
         { this.state.showLazyWithFetch && (
           <Suspense fallback={<div>Loading the component...</div>}>
             <LazyWithFetchComponent />
           </Suspense>
         )}
         <hr />
+        <button onClick={this.increaseId}>
+          Current id is {id}, click to increase
+        </button>
+        <br />
+        Deprecated life cycle: componentWillMount, componentWillReceiveProps, and componentWillUpdate
+        <br />
+        componentWillReceiveProps can be replace with getDerivedStateFromProps for Derived state and componentDidUpdate for Asyns fetch
+        <br /><br />
         <Derived id={id} />
         <hr />
         <AsynsData id={id} />
         <hr />
+        <button onClick={this.addNumber}>
+          Add number
+        </button>
         <table>
           <tbody>
             <tr>
@@ -92,6 +96,3 @@ export default App;
 // https://reactjs.org/blog/2018/10/23/react-v-16-6.html
 // Memo
 // Lazy: Import suspense, suspense is mandatory
-// Error: Boundary, good for dashboard getDerivedStateFromError or componentDidCatch
-// Life cycle: componentWillMount, componentWillReceiveProps, and componentWillUpdate
-// componentWillReceiveProps: getDerivedStateFromProps and componentDidUpdate
